@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 from matplotlib import pyplot as plt
 from CONTEST import *
 
+
+####FROM PIP INSTALL
+#from ConTEST.CONTEST import *
+
+
 df = pd.read_csv("pythonDataCheck.csv", index_col=0)
 df=df.sort_values('x_obs')
 
@@ -19,10 +24,19 @@ Test,Boot,Pvalue = ConTEST_reg(df,K=10)
 
 
 
-####FROM PIP INSTALL
 
-from ConTEST.CONTEST import *
+#############DENSITY CHECK
 
-df = pd.read_csv("pythonDataCheck.csv", index_col=0)
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
+from CONTEST import *
+
+
+df = pd.read_csv("pythonDataCheck_mod.csv", index_col=0)
+df2 = pd.read_csv("pythonDataCheck_obs.csv", index_col=0)
+
 # Invoking the R function and getting the result
-Test,Boot,Pvalue = ConTEST_reg(df,K=10)
+Test,Boot,Pvalue = ConTEST_dens(df,df2,K=10)

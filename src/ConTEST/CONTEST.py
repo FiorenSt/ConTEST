@@ -42,7 +42,7 @@ def install_R_functions(packnames = ('np')):
 
 
 
-def load_data(df):
+def load_data_reg(df):
     with localconverter(robjects.default_converter + pandas2ri.converter):
         df_r = robjects.conversion.py2rpy(df)
     return(df_r)
@@ -54,7 +54,7 @@ def ConTEST_reg(df,K=10,seed=10,signif_lev=0.05):
     np = rpackages.importr('np')
 
     ##load data
-    data=load_data(df)
+    data=load_data_reg(df)
 
     # Defining the R script and loading the instance in Python
     r = robjects.r
@@ -77,6 +77,51 @@ def ConTEST_reg(df,K=10,seed=10,signif_lev=0.05):
 
     return(Test,Boot_star,P_value)
 
+
+
+
+def load_data_dens(df,df2):
+    with localconverter(robjects.default_converter + pandas2ri.converter):
+        df_r = robjects.conversion.py2rpy(df)
+    with localconverter(robjects.default_converter + pandas2ri.converter):
+        df_r2 = robjects.conversion.py2rpy(df2)
+    return(df_r,df_r2)
+
+
+def ConTEST_dens(mod, obs, K=10, seed=10, signif_lev=0.05):
+
+    ks = rpackages.importr('ks')
+    mvtnorm = rpackages.importr('mvtnorm')
+
+    ##load data
+    mod, obs = load_data_dens(mod,obs)
+
+    # Defining the R script and loading the instance in Python
+    r = robjects.r
+    r['source']('ConTEST/src/ConTEST/R_functions/ConTEST_dens.R')
+
+    # Loading the function we have defined in R.
+    ConTEST_dens = robjects.globalenv['ConTEST_dens']
+
+    # Invoking the R function and getting the result
+    df_result_r = ConTEST_dens(mod, obs, K=K, seed=seed, signif_lev=signif_lev)
+
+    numpy2ri.activate()
+    Test = df_result_r.rx2('Test_stat')
+    Boot_star = df_result_r.rx2('Boot_stat')
+    P_value = df_result_r.rx2('P_value')
+    numpy2ri.deactivate()
+
+    if (signif_lev >= P_value):
+        print(
+            'Test statistic: {}, P-value: {} \nThe Null hypothesis in Rejected: the model is not consistent with the observations.'.format(
+                Test, P_value))
+    else:
+        print(
+            'Test statistic: {}, P-value: {} \nThe Null hypothesis in Not Rejected: the model is consistent with the observations.'.format(
+                Test, P_value))
+
+    return (Test, Boot_star, P_value)
 
 
 

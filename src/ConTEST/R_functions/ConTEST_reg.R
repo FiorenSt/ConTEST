@@ -1,5 +1,4 @@
 ####REGRESSION FUNCTION
-#library(np)
 
 ConTEST_reg=function(y_mod,x_obs,y_obs,uncertainties,K=10,seed=10,signif_lev=0.05){
 
