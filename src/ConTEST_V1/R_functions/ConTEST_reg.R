@@ -57,9 +57,7 @@ ConTEST_reg=function(y_mod,x_obs,y_obs,uncertainties,K=10,seed=10,signif_lev=0.0
   #Hypothesis testing
   d_sim =  sqrt( colSums(((est_sim-y_mod)/est_sim_unc)^2)/N)
   p_value = min( mean(d_sim <= d_fixed), mean(d_sim >= d_fixed))
-  
-  if(signif_lev>=p_value) print('The Null hypothesis in Rejected: the model is not consistent with the observations')
-  else print('The Null hypothesis in Not Rejected: the model is consistent with the observations')
+
   return(list(Test_stat=d_fixed, Boot_stat=d_sim, P_value=p_value))
 }
 
