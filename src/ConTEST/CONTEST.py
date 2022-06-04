@@ -58,7 +58,7 @@ def ConTEST_reg(df,K=10,seed=10,signif_lev=0.05):
 
     # Defining the R script and loading the instance in Python
     r = robjects.r
-    r['source']('ConTEST/src/ConTEST_V1/R_functions/ConTEST_reg.R')
+    r['source']('ConTEST/src/ConTEST/R_functions/ConTEST_reg.R')
 
     # Loading the function we have defined in R.
     ConTEST_reg = robjects.globalenv['ConTEST_reg']
@@ -81,7 +81,7 @@ def ConTEST_reg(df,K=10,seed=10,signif_lev=0.05):
 
 
 if __name__ == "__main__":
-    from ConTEST.src.ConTEST_V1 import CONTEST
+    from CONTEST import *
     df = pd.read_csv("pythonDataCheck.csv", index_col=0)
 
     # Invoking the R function and getting the result
