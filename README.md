@@ -38,7 +38,7 @@ _Follow the instructions below to download and start using ASID-L._
 
 # Dependencies:
 
-<img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=50% height=50%>
+<img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=70% height=70%>
 
 ConTEST is written in R and wrapped up in a python interface. Below the required packages:
 
