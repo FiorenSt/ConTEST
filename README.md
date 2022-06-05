@@ -1,4 +1,4 @@
-<img src=D:\GitHub Projects\ConTEST\img\logo_contest_bkg.png>
+<img src=https://github.com/FiorenSt/ConTEST/tree/main/img/logo_contest_bkg.png>
 
 <!--
 [![DOI](https://zenodo.org/badge/440851447.svg)](https://zenodo.org/badge/latestdoi/440851447) 
@@ -38,7 +38,7 @@ _Follow the instructions below to download and start using ASID-L._
 
 # Dependencies:
 
-<img src="https://github.com/FiorenSt/AutoSourceID-Light/blob/main/img/MemeConTEST.png " width=50% height=50%>
+<img src="https://github.com/FiorenSt/ConTEST/tree/main/img/MemeConTEST.png " width=50% height=50%>
 
 ConTEST is written in R and wrapped up in a python interface. Below the required packages:
 
