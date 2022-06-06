@@ -113,6 +113,8 @@ Although this is an early study, it appears that ASID-L is capable of localizing
 -->
 
 # Credits
-Credit goes to all the authors of the paper: 
 
+<!--
+Credit goes to all the authors of the paper: 
 **_AutoSourceID-Light. Fast Optical Source Localization via U-Net and Laplacian of Gaussian_**
+-->
