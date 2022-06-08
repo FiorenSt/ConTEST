@@ -18,6 +18,7 @@ ConTEST is written in R and wrapped up in a python interface.
 ## Table of Contents 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Example](#example)
 - [Features](#features)
 - [Credits](#credits)
 
@@ -47,30 +48,41 @@ _Follow the instructions below to download and start using ConTEST._
 <img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=80% height=80%>
 
 
-<!--
-3. Save the files in a folder "TrainingSet" and include the folder in the ASID-L repository
-4. Create an empty folder "RESULTS" 
--->
+
 
 # Dependencies:
 
 
 
-## Python 3 (or superior)
+### Python 3 (or superior)
 * Numpy 1.20.3
 * Pandas ...
 * 
 
 
-## R 4 (or superior)
+### R 4 (or superior)
 * np ...
 * 
+
 This combination of package versions works on most Linux and Windows computers, however other package versions may also work.
 If a problem with the combiantion of packages occurs, raise an issue and we will help you solve it.
 
 
 
 # Usage
+
+ConTEST can be applied in different case scenarios depending on the nature of the model being tested:
+
+
+## Regression models
+
+
+
+
+
+## Density models
+
+
 <!--
 
 The use of the pre-trained ASID-L is straight forward: 
