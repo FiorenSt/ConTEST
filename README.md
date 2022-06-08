@@ -10,7 +10,9 @@
 
 
 # Description
-Nonparametric consistency test between observations and astrophysical models
+Nonparametric consistency test between observations and astrophysical models.
+
+ConTEST is written in R and wrapped up in a python interface. 
 
 
 ## Table of Contents 
@@ -53,7 +55,6 @@ _Follow the instructions below to download and start using ConTEST._
 # Dependencies:
 
 
-ConTEST is written in R and wrapped up in a python interface. Below the required packages:
 
 ## Python 3 (or superior)
 * Numpy 1.20.3
