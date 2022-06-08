@@ -15,7 +15,7 @@ Nonparametric consistency test between observations and astrophysical models.
 
 ConTEST is written in R and wrapped up in a python interface. 
 
-<img src=https://github.com/FiorenSt/ConTEST/blob/main/img/logo_contest_bkg.png width=10% height=10%>
+<img src=https://github.com/FiorenSt/ConTEST/blob/main/img/logo_contest_bkg.png width=15% height=15%>
 
 
 ## Table of Contents 
@@ -127,6 +127,12 @@ python ASID-L.py -DATA_PATH './TrainingSet/ML1_20200601_191800_red_cosmics_nobkg
 
 
 -->
+
+# Example
+
+
+
+
 
 
 # Features
