@@ -1,4 +1,5 @@
-<img src=https://github.com/FiorenSt/ConTEST/blob/main/img/logo_contest_bkg.png>
+<img src=https://see.fontimg.com/api/renderfont4/KpAp/eyJyIjoiZnMiLCJoIjoxMzAsInciOjEwMDAsImZzIjoxMzAsImZnYyI6IiNGRDhDMDMiLCJiZ2MiOiIjMDYwNTA1IiwidCI6MX0/Q29uVEVTVA/kg-second-chances-sketch.png width=50% height=50%>
+
 
 <!--
 [![DOI](https://zenodo.org/badge/440851447.svg)](https://zenodo.org/badge/latestdoi/440851447) 
@@ -13,6 +14,8 @@
 Nonparametric consistency test between observations and astrophysical models.
 
 ConTEST is written in R and wrapped up in a python interface. 
+
+<img src=https://github.com/FiorenSt/ConTEST/blob/main/img/logo_contest_bkg.png width=10% height=10%>
 
 
 ## Table of Contents 
