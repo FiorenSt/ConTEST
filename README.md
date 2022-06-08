@@ -22,32 +22,45 @@ Nonparametric consistency test between observations and astrophysical models
 
 # Installation
 
-<!--
-_Follow the instructions below to download and start using ASID-L._
+
+_Follow the instructions below to download and start using ConTEST._
 
 1. Clone the repo
    ```sh
+   pip intall ConTEST
+   ```
+   or
+   ```sh
    git clone https://github.com/FiorenSt/ConTEST.git
    ```
-2. Download the Zenodo folder for training/test/validation sets    
-   [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5902893.svg)](https://doi.org/10.5281/zenodo.5902893)
+ 
 
+  
+2. Install the statistical software [R](https://www.r-project.org/). 
+   (No need to install R Studio. R it is only needed to run the core fucntions of ConTEST)
+
+
+
+<!--
 3. Save the files in a folder "TrainingSet" and include the folder in the ASID-L repository
 4. Create an empty folder "RESULTS" 
 -->
 
 # Dependencies:
 
-<img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=70% height=70%>
+<img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=90% height=90%>
 
 ConTEST is written in R and wrapped up in a python interface. Below the required packages:
 
-* Python 3 (or superior)
-* R 4 (or superior)
+## Python 3 (or superior)
 * Numpy 1.20.3
 * Pandas ...
 * 
 
+
+## R 4 (or superior)
+* np ...
+* 
 This combination of package versions works on most Linux and Windows computers, however other package versions may also work.
 If a problem with the combiantion of packages occurs, raise an issue and we will help you solve it.
 
