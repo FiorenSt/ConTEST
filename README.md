@@ -37,8 +37,12 @@ _Follow the instructions below to download and start using ConTEST._
 
   
 2. Install the statistical software [R](https://www.r-project.org/). 
-   (No need to install R Studio. R it is only needed to run the core fucntions of ConTEST)
+   (No need to install R Studio. R is only needed to run the core functions of ConTEST)
 
+
+<br/>
+
+<img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=80% height=80%>
 
 
 <!--
@@ -48,7 +52,6 @@ _Follow the instructions below to download and start using ConTEST._
 
 # Dependencies:
 
-<img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=90% height=90%>
 
 ConTEST is written in R and wrapped up in a python interface. Below the required packages:
 
