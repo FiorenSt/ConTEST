@@ -13,7 +13,7 @@
 # Description
 Nonparametric consistency test between observations and astrophysical models.
 
-ConTEST is written in R and wrapped up in a python interface. 
+ConTEST is written in R and wrapped in a python interface. 
 
 <img src=https://github.com/FiorenSt/ConTEST/blob/main/img/logo_contest_bkg.png width=15% height=15%>
 
