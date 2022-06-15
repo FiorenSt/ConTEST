@@ -24,8 +24,6 @@ statistic that evaluates the closeness of the astrophysical model to the observa
 ## Table of Contents 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Example](#example)
-- [Features](#features)
 - [Credits](#credits)
 
 
@@ -43,11 +41,14 @@ _Follow the instructions below to download and start using ConTEST._
    git clone https://github.com/FiorenSt/ConTEST.git
    ```
  
+ <br/>
 
   
-2. Install the statistical software [R](https://www.r-project.org/). 
-   (R is only needed to run the core functions of ConTEST. No need to install R Studio.)
+2. Install the statistical software [R](https://www.r-project.org/).   
+   R is only needed to run the core functions of ConTEST. No need to install R Studio.
 
+
+<br/>
 
 3. Test out ConTEST in Python!
 
@@ -70,7 +71,8 @@ _Follow the instructions below to download and start using ConTEST._
 
 ### R 4 (or superior)
 * Np ...
-* 
+* Mvtnorm
+* Ks
 
 This combination of package versions works on most Linux and Windows computers, however other package versions may also work.
 If a problem with the combiantion of packages occurs, raise an issue and we will help you solve it.
@@ -98,6 +100,7 @@ ConTEST can be applied in different case scenarios depending on the nature of th
    
     ```sh
    import ConTEST
+
    Test = ConTEST_reg(x, Obs, Mod)
    
    ```
@@ -118,6 +121,7 @@ ConTEST can be applied in different case scenarios depending on the nature of th
    
     ```sh
    import ConTEST
+
    Test = ConTEST_dens(Obs, Mod)
    
    ```
@@ -165,27 +169,8 @@ python ASID-L.py -DATA_PATH './TrainingSet/ML1_20200601_191800_red_cosmics_nobkg
 
 -->
 
-# Example
 
 
-
-
-
-
-# Features
-
-<!--
-
-An open question that we want to address in the future is how the resolution of the images affects the localization results.
-A first promising test can be found below, where we applied ASID-L, trained on MeerLICHT images, to images from the Hubble Space Telescope. The latter has a Full-Width at Half-
-Maximum (FWHM) PSF of about 0.11 arcseconds, much better than the 2-3 arcseconds of MeerLICHT.
-
-<img src="https://github.com/FiorenSt/AutoSourceID-Light/blob/main/Plots/HSTField10396.png " >
-
-Star cluster image retrieved from the Hubble Space Telescope archive (GO-10396, PI: J.S. Gallagher). The red circles in the zoomed windows are the locations of the sources identified by ASID-L.
-
-Although this is an early study, it appears that ASID-L is capable of localizing  sources without the need to re-train the U-Net on HST images. The main difference between MeerLICHT and HST, the resolution of the images, does not seem to affect the results of the method. 
--->
 
 # Credits
 
