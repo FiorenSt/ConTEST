@@ -11,9 +11,12 @@
 
 
 # Description
-Nonparametric consistency test between observations and astrophysical models.
 
-ConTEST is written in R and wrapped in a python interface. 
+ConTEST is a statistical test for assessing the consistency between observations and astrophysical models.
+It uses a combination of non-parametric methods and distance measures to obtain a test
+statistic that evaluates the closeness of the astrophysical model to the observations; hypothesis testing is then performed using bootstrap.
+
+*ConTEST is written in R and wrapped in a python interface.* 
 
 <img src=https://github.com/FiorenSt/ConTEST/blob/main/img/logo_contest_bkg.png width=15% height=15%>
 
@@ -43,8 +46,10 @@ _Follow the instructions below to download and start using ConTEST._
 
   
 2. Install the statistical software [R](https://www.r-project.org/). 
-   (No need to install R Studio. R is only needed to run the core functions of ConTEST)
+   (R is only needed to run the core functions of ConTEST. No need to install R Studio.)
 
+
+3. Test out ConTEST in Python!
 
 <br/>
 
@@ -64,7 +69,7 @@ _Follow the instructions below to download and start using ConTEST._
 
 
 ### R 4 (or superior)
-* np ...
+* Np ...
 * 
 
 This combination of package versions works on most Linux and Windows computers, however other package versions may also work.
@@ -74,16 +79,48 @@ If a problem with the combiantion of packages occurs, raise an issue and we will
 
 # Usage
 
-ConTEST can be applied in different case scenarios depending on the nature of the model being tested:
+ConTEST can be applied in different case scenarios depending on the nature of the model being tested. Below the two fundamental application on step-to-step examples.
 
 
 ## Regression models
 
+0. Create synthetic Model, Observations and Uncertainties:
 
+   ```sh
+   x = 
+   Mod =
+   Obs = 
+   Unc =
 
+   ```
+
+1. Use ConTEST_reg:
+   
+    ```sh
+   import ConTEST
+   Test = ConTEST_reg(x, Obs, Mod)
+   
+   ```
 
 
 ## Density models
+
+0. Create synthetic Model and Observations:
+
+   ```sh
+   x = 
+   y =
+   
+   Obs = 
+   ```
+ 
+1. Use ConTEST_dens:
+   
+    ```sh
+   import ConTEST
+   Test = ConTEST_dens(Obs, Mod)
+   
+   ```
 
 
 <!--
