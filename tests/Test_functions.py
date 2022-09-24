@@ -1,42 +1,28 @@
-import numpy as np
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-from matplotlib import pyplot as plt
 from CONTEST import *
 
 
 ####FROM PIP INSTALL
-#from ConTEST.CONTEST import *
+#from ConTEST_V2.CONTEST import *
 
+###REGRESSION CHECK
+data = numpy.loadtxt(
+    'C:/Users/fiore/Desktop/UNI/Projects/Project5-ConsistencyTest/SCRIPTS/REGRESSION/spectrum_GOOD_fit.dat', skiprows=1)
 
-df = pd.read_csv("pythonDataCheck.csv", index_col=0)
-df=df.sort_values('x_obs')
+y_obs = data[:, 1]
+x_obs = data[:, 0]
+y_mod = data[:, 2]
+y_obs_err = data[:, 3]
 
-plt.figure(figsize=(8, 6))
-plt.plot(df['x_obs'],df['y_mod'], linewidth=3)
-plt.errorbar(df['x_obs'], df['y_obs'], yerr=df['uncertainties'], fmt='o', color='black',
-             ecolor='black', elinewidth=1, capsize=3)
-plt.show()
-
-# Invoking the R function and getting the result
-Test,Boot,Pvalue = ConTEST_reg(df,K=10)
-
-
+Test1 = contest_reg(y_obs, x_obs, y_mod, y_obs_err,K=1000,plot=True)
+Test2 = smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err,K=1000,plot=True)
 
 
 #############DENSITY CHECK
 
-import numpy as np
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-from matplotlib import pyplot as plt
-from CONTEST import *
-
-
 df = pd.read_csv("pythonDataCheck_mod.csv", index_col=0)
 df2 = pd.read_csv("pythonDataCheck_obs.csv", index_col=0)
 
-# Invoking the R function and getting the result
-Test,Boot,Pvalue = ConTEST_dens(df,df2,K=10)
+Test3 = contest_outliers(mod=df['mod.2'], obs=df2['obs.2'], K=1000, plot=True)
+Test4 = contest_dens(mod=df['mod.2'], obs=df2['obs.2'],K=1000, plot=True)
+
+
