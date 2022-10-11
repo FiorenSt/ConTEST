@@ -29,10 +29,10 @@ from statsmodels.distributions.empirical_distribution import ECDF
 # R PACKAGES #
 ##############
 
-import rpy2.robjects.packages as rpackages
-import rpy2.robjects.numpy2ri
-rpy2.robjects.numpy2ri.activate()
-import rpy2.robjects
+# import rpy2.robjects.packages as rpackages
+# import rpy2.robjects.numpy2ri
+# rpy2.robjects.numpy2ri.activate()
+# import rpy2.robjects
 
 
 
@@ -115,15 +115,15 @@ def contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=10000, seed=1, signif_lev=0.05
 ######################
 
 
-def install_R_functions(packnames=('np')):
-    # import R's utility package
-    utils = rpackages.importr('utils')
-    # select a mirror for R packages
-    utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
-    # R package install
-    utils.install_packages(packnames)
+# def install_R_functions(packnames=('np')):
+#     # import R's utility package
+#     utils = rpackages.importr('utils')
+#     # select a mirror for R packages
+#     utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
+#     # R package install
+#     utils.install_packages(packnames)
 
-install_R_functions()
+# install_R_functions()
 
 
 
