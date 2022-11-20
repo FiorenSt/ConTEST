@@ -89,10 +89,24 @@ ConTEST can be applied in different case scenarios depending on the nature of th
 0. Create synthetic Model, Observations and Uncertainties:
 
    ```sh
-   x = 
-   Mod =
-   Obs = 
-   Unc =
+   
+   n=100
+   x = np.random.rand(n)
+   
+   beta1 = -0.3
+   beta2 = 8
+   m = 2
+   
+   model = np.exp(beta1*x)*np.sin(beta2*x) + m
+   err_model = model * .05
+   
+   ###OBSERVATION FROM REAL MODEL
+   obs = np.zeros(N)
+   
+   for i in range(N):
+     obs[i] = model[i] + stats.multivariate_normal.rvs(mean=0, cov=(err_model[i])**2,size=1)
+   
+   err_obs = err_model
 
    ```
 
@@ -100,9 +114,8 @@ ConTEST can be applied in different case scenarios depending on the nature of th
    
     ```sh
    import ConTEST
-
-   Test = ConTEST_reg(x, Obs, Mod)
-   
+   Test1 = contest_reg(y_obs = obs, x_obs = x, y_mod = model, y_obs_err = err_obs, K=1000,plot=True)
+   Test2 = smoothed_contest_reg(y_obs = obs, x_obs = x, y_mod = model, y_obs_err = err_obs, K=1000,plot=True)   
    ```
 
 
@@ -111,70 +124,19 @@ ConTEST can be applied in different case scenarios depending on the nature of th
 0. Create synthetic Model and Observations:
 
    ```sh
-   x = 
-   y =
-   
-   Obs = 
-   ```
+   n=100
+   obs = stats.multivariate_normal.rvs(mean=5, cov= [1.5],size=n)
+   model = stats.multivariate_normal.rvs(mean=5, cov= [1.5],size=1000)
  
 1. Use ConTEST_dens:
    
     ```sh
    import ConTEST
-
-   Test = ConTEST_dens(Obs, Mod)
-   
+   Test3 = contest_outliers(mod=model, obs=obs, K=1000, plot=True)
+   Test4 = contest_dens(mod=model, obs=obs, K=1000, plot=True)   
    ```
-
-
-<!--
-
-The use of the pre-trained ASID-L is straight forward: 
-
-```
-python ASID-L.py
-```
-
-It loads a .fits image and the pre-trained model, and it outputs a catalog 'coordinates.txt' in the folder 'RESULTS'.
-
-**Other parameters:**
- 
--DATA_PATH './TrainingSet/ML1_20200601_191800_red_cosmics_nobkgsub.fits'  **_(path of the .fits image)_**
-
--MODEL_PATH './MODELS/TrainedModel.h5'   **_(path of the model)_**
-
--demo_plot   **_(shows a plot with an optical patch superimposed with the locations of the sources in red)_**
-
--CPUs  **_(number of CPUs for parallel processing)_**
-
-Here an example,
-```
-python ASID-L.py -DATA_PATH './TrainingSet/ML1_20200601_191800_red_cosmics_nobkgsub.fits' -MODEL_PATH './MODELS/TrainedModel.h5' -demo_plot
-```
-
-### Train U-Net from scratch
-
- To train the U-Net without additional changes run:
- ```
- python ASID-L.py -train_model
- ```
- You will find the trained model in the folder '/MODELS/FROM_SCRATCH'. You can then run the pre-trained version of ASID-L with -MODEL_PATH your new trained model.
- 
-**Other parameters:**
-
--snr_threshold **_(SNR cut-off for the training set)_** 
-
--epochs **_(the number of epochs)_**
-
-
--->
 
 
 
 
 # Credits
-
-<!--
-Credit goes to all the authors of the paper: 
-**_AutoSourceID-Light. Fast Optical Source Localization via U-Net and Laplacian of Gaussian_**
--->
