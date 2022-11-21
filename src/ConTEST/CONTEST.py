@@ -58,8 +58,7 @@ def install_R_functions(packnames=('np')):
     # R package install
     utils.install_packages(packnames)
 
-install_R_functions()
-
+#install_R_functions()
 
 
 
@@ -79,13 +78,11 @@ def contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=10000, seed=1, signif_lev=0.05
     # Estimate the test statistic
     t = numpy.sqrt(numpy.sum(((y_mod - y_obs) / y_obs_err) ** 2) / n)
 
-    # Simulate K dataset with the model as ground truth
+    # Simulate K dataset with the model as ground truth and the observed uncertainties as covariance matrix
     sim = numpy.zeros((n, K))
     numpy.random.seed(seed)
     for i in range(n):
         sim[i, :] = y_mod[i] + stats.multivariate_normal.rvs(mean=0, cov= (y_obs_err[i])**2,size=K)
-
-
 
     # Estimate the test statistics for the simulated samples
     t_sim = numpy.sqrt(
@@ -135,12 +132,14 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
     # Observations size
     n = len(y_obs)
 
+    # Load package for Local Linear Regression
     np = rpackages.importr('np')
 
-
+    # Transform observations and model to format suitable for R
     x_obs_r = rpy2.robjects.r['matrix'](numpy.array(x_obs),ncol=x_obs.ndim)
     y_obs_r = rpy2.robjects.FloatVector(y_obs)
 
+    # R script for the LLR
     rpy2.robjects.r('''
             # create a function `f`
             f <- function(y_obs_r, x_obs_r) {
@@ -161,21 +160,20 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
             }
             ''')
 
+    # Run the LLR on the original dataset
     r_f = rpy2.robjects.globalenv['f']
-
     y_obs_smoothed = r_f(y_obs_r,x_obs_r)
 
     # Estimate the test statistic
     t = numpy.sqrt(numpy.sum(((y_mod - y_obs_smoothed[:,0]) / y_obs_smoothed[:,1]) ** 2) / n)
 
-    # Simulate K dataset with the model as ground truth
+    # Simulate K dataset with the model as ground truth and the observed uncertainties as covariance matrix
     sim = numpy.zeros((n, K))
     numpy.random.seed(seed)
-
     for i in range(n):
         sim[i, :] = y_mod[i] + stats.multivariate_normal.rvs(mean=0, cov= (y_obs_err[i])**2,size=K)
 
-
+    # Run the LLR on the simulated samples
     y_obs_smoothed_sim = numpy.zeros((n,K,2))
     for k in range(K):
         y_sim = rpy2.robjects.FloatVector(sim[:,k])
@@ -189,7 +187,7 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
     # Calculate the P_value
     p_value = 2 * min(numpy.mean(t_sim <= t), numpy.mean(t_sim >= t))
 
-    if (p_value < signif_lev):
+    if p_value < signif_lev:
         print(
             'Test statistic: {}, P-value: {} \nThe Null Hypothesis in Rejected: the model is not consistent with the '
             'observations.'.format(
@@ -216,8 +214,10 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
         plt.subplot(1, 2, 2)
         s = sns.kdeplot(t_sim, fill=True, color="gray")
         plt.vlines(t, ymin=0, ymax=s.dataLim.bounds[3], color="#D16103",linestyle='--', label='Test stat.')
-        plt.vlines(numpy.quantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",linestyle='--', label='97.5%')
-        plt.vlines(numpy.quantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",linestyle='--', label='2.5%')
+        plt.vlines(numpy.quantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
+                   linestyle='--', label='97.5%')
+        plt.vlines(numpy.quantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
+                   linestyle='--', label='2.5%')
         plt.legend()
 
     return pd.DataFrame({'Test': t, 'Bootstrap': t_sim, 'P_value': p_value})
@@ -236,19 +236,22 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
 
 def contest_outliers(mod, obs, K=1000, signif_lev=0.05, plot=False):
 
+    # Sample size
     n = obs.shape[0]
 
+    # Transformation for scipy multivariate Kernel Density Estimation
     if obs.ndim == 2:
         mod = mod.T
         obs = obs.T
 
+    # Estimate the model's density
     g = stats.gaussian_kde(mod)
 
+    # Estimate the test statistic
     t = -numpy.mean(g.logpdf(obs))
 
-    # - simulate K dataset
+    # Simulate K dataset and estimate their test statistics
     t_sim = numpy.zeros((K))
-
     for k in range(K):
         sim = g.resample(n)
         t_sim[k] = -numpy.mean(g.logpdf(sim))
@@ -288,7 +291,8 @@ def contest_outliers(mod, obs, K=1000, signif_lev=0.05, plot=False):
         if obs.ndim == 2:
             plt.figure(figsize=(12, 6))
             plt.subplot(1, 2, 1)
-            sns.kdeplot(x=mod[0,:], y=mod[1,:], levels=[0.25,0.50,0.75], color="#4E84C4", linestyles='--', label='Model')
+            sns.kdeplot(x=mod[0,:], y=mod[1,:], levels=[0.25,0.50,0.75], color="#4E84C4", linestyles='--',
+                        label='Model')
             plt.scatter(x=obs[0,:], y=obs[1,:], s=2, color='black')
             plt.legend()
 
@@ -305,39 +309,36 @@ def contest_outliers(mod, obs, K=1000, signif_lev=0.05, plot=False):
 
 
 
-
-
-
-
 ##########################
 # CONTEST FOR DENSITIES #
 ##########################
 
 def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
-
+    # Sample size
     n = obs.shape[0]
 
+    # Transformation for scipy multivariate Kernel Density Estimation
     if obs.ndim == 2:
         mod = mod.T
         obs = obs.T
 
+    # Estimate the model's density
     g = stats.gaussian_kde(mod)
+
+    # Estimate the observations' density
     f = stats.gaussian_kde(obs)
 
-    # MCMC for the integral
+    # MCMC to estimate the test statistic
     J = 1000
-
-    ##simulate from g
     x_g = g.resample(J)
-
     d_g = g.pdf(x_g)
     d_f = f.pdf(x_g)
 
+    # Estimate the test statistics
     t = sum(abs(d_f / d_g - 1)) / J
 
-    # - simulate K dataset
+    # Simulate K dataset and estimate their test statistics
     t_sim = numpy.zeros((K))
-
     for k in range(K):
         sim = g.resample(n)
         f_sim = stats.gaussian_kde(sim)
@@ -346,7 +347,6 @@ def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
 
     # P-value
     p_value = numpy.mean(t_sim >= t)
-
 
     if p_value < signif_lev:
         print(
@@ -381,7 +381,8 @@ def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
         if obs.ndim == 2:
             plt.figure(figsize=(12, 6))
             plt.subplot(1, 2, 1)
-            sns.kdeplot(x=mod[0,:], y=mod[1,:], levels=[0.25,0.50,0.75], colors="#4E84C4", linestyles='--', label='Model')
+            sns.kdeplot(x=mod[0,:], y=mod[1,:], levels=[0.25,0.50,0.75], colors="#4E84C4", linestyles='--',
+                        label='Model')
             sns.kdeplot(x=obs[0,:], y=obs[1,:], levels=[0.25,0.50,0.75], colors="#D16103", label='Obs.')
             plt.scatter(x=obs[0,:], y=obs[1,:], s=2, color='black')
             plt.legend()
@@ -397,5 +398,4 @@ def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
 
 
 
-if __name__ == '__main__':
-    contest_reg()
+#if __name__ == '__main__':

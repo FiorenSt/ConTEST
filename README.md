@@ -113,7 +113,6 @@ ConTEST can be applied in different case scenarios depending on the nature of th
 1. Use ConTEST_reg:
    
     ```sh
-   import ConTEST
    Test1 = contest_reg(y_obs = obs, x_obs = x, y_mod = model, y_obs_err = err_obs, K=1000,plot=True)
    Test2 = smoothed_contest_reg(y_obs = obs, x_obs = x, y_mod = model, y_obs_err = err_obs, K=1000,plot=True)   
    ```
