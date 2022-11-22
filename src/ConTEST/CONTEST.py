@@ -30,28 +30,29 @@ from scipy import stats
 
 # Run the lines below:
 
-# import os
-# os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
-# os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
-# os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
+#import os
+#os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
+#os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
+#os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
 
-# import rpy2.robjects.packages as rpackages
-# import rpy2.robjects.numpy2ri
-# import rpy2.robjects
+import rpy2.robjects.packages as rpackages
+import rpy2.robjects.numpy2ri
+import rpy2.robjects
+
 
 ######################
 # INSTALL R PACKAGES #
 ######################
 
-# def install_R_functions(packnames=('np')):
-#     # import R's utility package
-#     utils = rpackages.importr('utils')
-#     # select a mirror for R packages
-#     utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
-#     # R package install
-#     utils.install_packages(packnames)
+def install_R_functions(packnames=('np')):
+    # import R's utility package
+    utils = rpackages.importr('utils')
+    # select a mirror for R packages
+    utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
+    # R package install
+    utils.install_packages(packnames)
 
-# install_R_functions()
+install_R_functions()
 
 
 
