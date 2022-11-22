@@ -28,18 +28,16 @@ from scipy import stats
 # ALLOW R TO ACCESS PYTHON #
 ############################
 
-import rpy2.robjects.packages as rpackages
-import rpy2.robjects.numpy2ri
-import rpy2.robjects
-
-
-# In case of problems with R, run the tree lines below:
+# Run the lines below:
 
 # import os
 # os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
 # os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
 # os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
 
+# import rpy2.robjects.packages as rpackages
+# import rpy2.robjects.numpy2ri
+# import rpy2.robjects
 
 ######################
 # INSTALL R PACKAGES #
@@ -396,4 +394,5 @@ def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
 
 
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
+    print('Welcome to ConTEST, check out the github page to learn more about it.')
