@@ -23,7 +23,7 @@ statistic that evaluates the closeness of the astrophysical model to the observa
 
 ## Table of Contents 
 - [Installation](#installation)
-- [Usage](#usage)
+- [Tutorial](#tutorial)
 - [Credits](#credits)
 
 
@@ -47,15 +47,22 @@ _Follow the instructions below to download and start using ConTEST._
 
 <br/>
 
-3. Use ConTEST in Python!
-
-<br/>
 
 <img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=80% height=80%>
 
 
 
+3. Use ConTEST in Python!
+
+<br/>
+
+
+
+
 # Dependencies:
+
+The following combination of package versions works on most Linux and Windows computers, however other package versions may also
+work. If a problem with the combination of packages occurs, raise an issue, and we will help you solve it.
 
 
 ### Python 3 (or superior)
@@ -68,14 +75,33 @@ _Follow the instructions below to download and start using ConTEST._
 
 ### R 3.6.0 (or superior)
 * Np 0.60
-* Ks 1.13.5
 
-This combination of package versions works on most Linux and Windows computers, however other package versions may also
-work.
-If a problem with the combination of packages occurs, raise an issue, and we will help you solve it.
+To ensure that Python can access R's libraries, run the three lines below (of course, modify to match your folders):
+
+   ```sh
+    os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
+    os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
+    os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
+   ```
+
+If this is the first time you run use R, you need to install the R package used in Smoothed ConTEST. Simply run:
+
+   ```sh
+    def install_R_functions(packnames=('np')):
+        # import R's utility package
+        utils = rpackages.importr('utils')
+        # select a mirror for R packages
+        utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
+        # R package install
+        utils.install_packages(packnames)
+    
+    install_R_functions()
+   ```
 
 
-# Usage
+## Making sure R is working
+
+# Tutorial
 
 ConTEST can be applied in different case scenarios depending on the nature of the model being tested. 
 <br/>
@@ -94,7 +120,7 @@ There are 4 fundamental functions in ConTEST:
 
 ## Regression models
 
-0. Create synthetic model, observations, and uncertainties to test the functions:
+Create synthetic model, observations, and uncertainties to test the functions:
 
    ```sh
    # random sample 
@@ -137,7 +163,7 @@ There are 4 fundamental functions in ConTEST:
 
 ## Density models
 
-0. Create synthetic model and observations:
+Create synthetic model and observations:
 
    ```sh
    n=100

@@ -20,7 +20,6 @@
 import matplotlib.pyplot as plt
 import numpy
 import pandas as pd
-import os
 import seaborn as sns
 from scipy import stats
 
@@ -29,36 +28,32 @@ from scipy import stats
 # ALLOW R TO ACCESS PYTHON #
 ############################
 
-# In case of problems with R, run the tree lines below:
-os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
-os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
-os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
-
-
-##############
-# R PACKAGES #
-##############
-
 import rpy2.robjects.packages as rpackages
 import rpy2.robjects.numpy2ri
-rpy2.robjects.numpy2ri.activate()
 import rpy2.robjects
+
+
+# In case of problems with R, run the tree lines below:
+
+# import os
+# os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
+# os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
+# os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
 
 
 ######################
 # INSTALL R PACKAGES #
 ######################
 
+# def install_R_functions(packnames=('np')):
+#     # import R's utility package
+#     utils = rpackages.importr('utils')
+#     # select a mirror for R packages
+#     utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
+#     # R package install
+#     utils.install_packages(packnames)
 
-def install_R_functions(packnames=('np')):
-    # import R's utility package
-    utils = rpackages.importr('utils')
-    # select a mirror for R packages
-    utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
-    # R package install
-    utils.install_packages(packnames)
-
-#install_R_functions()
+# install_R_functions()
 
 
 
@@ -129,6 +124,9 @@ def contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=10000, seed=1, signif_lev=0.05
 ###################################
 
 def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_lev=0.05, plot=False):
+
+    rpy2.robjects.numpy2ri.activate()
+
     # Observations size
     n = len(y_obs)
 
