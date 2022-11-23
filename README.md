@@ -15,8 +15,7 @@
 ConTEST is a statistical test for assessing the consistency between observations and astrophysical models.
 It uses a combination of non-parametric methods and distance measures to obtain a test
 statistic that evaluates the closeness of the astrophysical model to the observations; hypothesis testing is then performed using bootstrap.
-
-*ConTEST is written in R and wrapped in a python interface.* 
+ 
 
 <img src=https://github.com/FiorenSt/ConTEST/blob/main/img/logo_contest_bkg.png width=15% height=15%>
 
@@ -28,12 +27,18 @@ statistic that evaluates the closeness of the astrophysical model to the observa
 
 # Step-by-step setup
 
-_Follow the instructions below to download and start using ConTEST._
+_Follow the instructions below to install and start using ConTEST in Python._
 
 1. Install ConTEST:
    ```sh
    pip intall ConTEST
    ```
+   or git clone the repository:
+    ```sh
+   git clone https://github.com/FiorenSt/ConTEST.git
+   ```
+   
+
  <br/>
 
 2. Install the statistical software [R](https://www.r-project.org/). R is needed to run some internal functions of ConTEST.
