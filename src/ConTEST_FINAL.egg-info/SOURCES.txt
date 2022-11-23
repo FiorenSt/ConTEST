@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/ConTEST/CONTEST.py
+src/ConTEST/__init__.py
+src/ConTEST_FINAL.egg-info/PKG-INFO
+src/ConTEST_FINAL.egg-info/SOURCES.txt
+src/ConTEST_FINAL.egg-info/dependency_links.txt
+src/ConTEST_FINAL.egg-info/top_level.txt
