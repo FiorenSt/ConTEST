@@ -123,6 +123,19 @@ There are 4 fundamental functions in ConTEST:
   dataset 
 
 
+### Intro script 
+
+   ```sh
+    # ensure that Python can access R
+    import os
+    os.environ['R_HOME'] = '~/Program Files/R/R-4.0.2'  #-> Your installed R folder
+    os.environ['R_USER'] = '~/Miniconda3/envs/ConsistencyTest/lib/site-packages/'  #-> Your python environment
+    os.environ['R_LIBS_USER'] = "~/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
+    
+    # load contest functions
+    from ConTEST.CONTEST import contest_reg, smoothed_contest_reg, contest_outliers, contest_dens
+   ```
+
 
 ## Regression models
 
