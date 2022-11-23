@@ -22,7 +22,7 @@ statistic that evaluates the closeness of the astrophysical model to the observa
 
 
 ## Table of Contents 
-- [Step-by-step setup](#setup)
+- [Step-by-step setup](#step-by-step-setup)
 - [Tutorial](#tutorial)
 
 
@@ -36,14 +36,13 @@ _Follow the instructions below to download and start using ConTEST._
    ```
  <br/>
 
-2. Install the statistical software [R](https://www.r-project.org/).   
-   R is only needed to run Smoothed ConTEST. (No need to install R Studio)
-
+2. Install the statistical software [R](https://www.r-project.org/). R is needed to run some internal functions of ConTEST.
 <br/>
 
-3. To ensure that Python can access R's libraries, run the three lines below (of course, modify to match your folders):
+3. To ensure that Python can access R's libraries, run the three lines below in Python (of course, modify to match your folders):
 
    ```sh
+    import os
     os.environ['R_HOME'] = '~/Program Files/R/R-4.0.2'  #-> Your installed R folder
     os.environ['R_USER'] = '~/Miniconda3/envs/ConsistencyTest/lib/site-packages/'  #-> Your python environment
     os.environ['R_LIBS_USER'] = "~/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
@@ -51,14 +50,14 @@ _Follow the instructions below to download and start using ConTEST._
 <br/>
 
 
-4. Install rpy2:
+4. Install rpy2 (R to Python library):
    ```sh
    pip intall rpy2
    ```
  <br/>
 
 
-5. If this is the first time you run use R, you need to install the R package used in Smoothed ConTEST. Simply run:
+5. If this is the first time you use ConTEST, you need to install the R package used in Smoothed ConTEST. In Python, simply run:
 
    ```sh
     def install_R_functions(packnames=('np')):
@@ -72,7 +71,7 @@ _Follow the instructions below to download and start using ConTEST._
     install_R_functions()
    ```
 
-3. Use ConTEST in Python!
+3. Use ConTEST in Python! Follow the tutorial below for more information about the individual functions.
 
 <br/>
 
