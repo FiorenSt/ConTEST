@@ -28,16 +28,14 @@ from scipy import stats
 # ALLOW R TO ACCESS PYTHON #
 ############################
 
-#import os
-#os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
-#os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
-#os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
+# import os
+#os.environ['R_HOME'] = '~/Program Files/R/R-4.0.2'  #-> Your installed R folder
+# os.environ['R_USER'] = '~/Miniconda3/envs/ConsistencyTest/lib/site-packages/'  #-> Your python environment
+# os.environ['R_LIBS_USER'] = "~/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
 
 import rpy2.robjects.packages as rpackages
 import rpy2.robjects.numpy2ri
 import rpy2.robjects
-
-
 
 
 ###########################################  REGRESSION  ##############################################
@@ -106,7 +104,7 @@ def contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=10000, seed=1, signif_lev=0.05
 # SMOOTHED CONTEST FOR REGRESSION #
 ###################################
 
-def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_lev=0.05, plot=False):
+def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_lev=0.05, bwtype='fixed', plot=False):
 
     rpy2.robjects.numpy2ri.activate()
 
@@ -123,13 +121,13 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
     # R script for the LLR
     rpy2.robjects.r('''
             # create a function `f`
-            f <- function(y_obs_r, x_obs_r) {
+            f <- function(y_obs_r, x_obs_r, bwtype) {
                 bw.fixed <- npregbw(ydat=y_obs_r,
                               xdat=x_obs_r,
                               regtype = "ll",
                               bwmethod = "cv.aic",
                               gradients = FALSE,
-                              bwtype= 'fixed',
+                              bwtype= bwtype,
                               nmulti=1)
           
             model.fixed = npreg(bw.fixed)
@@ -143,7 +141,7 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
 
     # Run the LLR on the original dataset
     r_f = rpy2.robjects.globalenv['f']
-    y_obs_smoothed = r_f(y_obs_r,x_obs_r)
+    y_obs_smoothed = r_f(y_obs_r, x_obs_r, bwtype)
 
     # Estimate the test statistic
     t = numpy.sqrt(numpy.sum(((y_mod - y_obs_smoothed[:,0]) / y_obs_smoothed[:,1]) ** 2) / n)
@@ -158,7 +156,7 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
     y_obs_smoothed_sim = numpy.zeros((n,K,2))
     for k in range(K):
         y_sim = rpy2.robjects.FloatVector(sim[:,k])
-        y_obs_smoothed_sim[:,k,:] = r_f(y_sim, x_obs_r)
+        y_obs_smoothed_sim[:,k,:] = r_f(y_sim, x_obs_r, bwtype)
 
 
     # Estimate the test statistics for the simulated samples
