@@ -22,37 +22,62 @@ statistic that evaluates the closeness of the astrophysical model to the observa
 
 
 ## Table of Contents 
-- [Installation](#installation)
+- [Step-by-step setup](#setup)
 - [Tutorial](#tutorial)
-- [Credits](#credits)
 
 
-# Installation
+# Step-by-step setup
 
 _Follow the instructions below to download and start using ConTEST._
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/FiorenSt/ConTEST.git
-   ```
-   or
+1. Install ConTEST:
    ```sh
    pip intall ConTEST
    ```
  <br/>
 
-  
-2. (Optional) Install the statistical software [R](https://www.r-project.org/).   
+2. Install the statistical software [R](https://www.r-project.org/).   
    R is only needed to run Smoothed ConTEST. (No need to install R Studio)
+
+<br/>
+
+3. To ensure that Python can access R's libraries, run the three lines below (of course, modify to match your folders):
+
+   ```sh
+    os.environ['R_HOME'] = '~/Program Files/R/R-4.0.2'  #-> Your installed R folder
+    os.environ['R_USER'] = '~/Miniconda3/envs/ConsistencyTest/lib/site-packages/'  #-> Your python environment
+    os.environ['R_LIBS_USER'] = "~/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
+   ```
+<br/>
+
+
+4. Install rpy2:
+   ```sh
+   pip intall rpy2
+   ```
+ <br/>
+
+
+5. If this is the first time you run use R, you need to install the R package used in Smoothed ConTEST. Simply run:
+
+   ```sh
+    def install_R_functions(packnames=('np')):
+        # import R's utility package
+        utils = rpackages.importr('utils')
+        # select a mirror for R packages
+        utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
+        # R package install
+        utils.install_packages(packnames)
+    
+    install_R_functions()
+   ```
+
+3. Use ConTEST in Python!
 
 <br/>
 
 
 <img src="https://github.com/FiorenSt/ConTEST/blob/main/img/MemeConTEST.png " width=80% height=80%>
-
-
-
-3. Use ConTEST in Python!
 
 <br/>
 
@@ -76,30 +101,7 @@ work. If a problem with the combination of packages occurs, raise an issue, and 
 ### R 3.6.0 (or superior)
 * Np 0.60
 
-To ensure that Python can access R's libraries, run the three lines below (of course, modify to match your folders):
 
-   ```sh
-    os.environ['R_HOME'] = 'C:/Program Files/R/R-4.0.2'  #-> Your installed R folder
-    os.environ['R_USER'] = 'C:/Users/fiore/Miniconda3/envs/Project5-ConsistencyTest/lib/site-packages/'  #-> Your python environment
-    os.environ['R_LIBS_USER'] = "C:/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
-   ```
-
-If this is the first time you run use R, you need to install the R package used in Smoothed ConTEST. Simply run:
-
-   ```sh
-    def install_R_functions(packnames=('np')):
-        # import R's utility package
-        utils = rpackages.importr('utils')
-        # select a mirror for R packages
-        utils.chooseCRANmirror(ind=1)  # select the first mirror in the list
-        # R package install
-        utils.install_packages(packnames)
-    
-    install_R_functions()
-   ```
-
-
-## Making sure R is working
 
 # Tutorial
 
@@ -200,4 +202,3 @@ Create synthetic model and observations:
 
 
 
-# Credits
