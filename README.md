@@ -55,8 +55,13 @@ _Follow the instructions below to install and start using ConTEST in Python._
 <br/>
 
 
-4. Install rpy2 (R to Python library):
+4. Install Python dependencies (rpy2 needs R already installed):
    ```sh
+   pip intall matplotlib
+   pip intall numpy
+   pip intall pandas
+   pip intall scipy
+   pip intall seaborn
    pip intall rpy2
    ```
  <br/>
