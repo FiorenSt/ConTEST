@@ -1,3 +1,18 @@
+Metadata-Version: 2.1
+Name: ConsistencyTEST
+Version: 0.0.1
+Summary: Consistency test
+Home-page: https://github.com/FiorenST/ConTEST
+Author: Fiorenzo Stoppa
+Author-email: f.stoppa@astro.ru.nl
+Project-URL: Bug Tracker, https://github.com/FiorenST/ConTEST/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 <img src=https://see.fontimg.com/api/renderfont4/KpAp/eyJyIjoiZnMiLCJoIjoxMzAsInciOjEwMDAsImZzIjoxMzAsImZnYyI6IiNGRDhDMDMiLCJiZ2MiOiIjMDYwNTA1IiwidCI6MX0/Q29uVEVTVA/kg-second-chances-sketch.png width=50% height=50%>
 
 
@@ -31,7 +46,7 @@ _Follow the instructions below to install and start using ConTEST in Python._
 
 1. Install ConTEST:
    ```sh
-   pip install ConsistencyTEST
+   pip intall ConTEST
    ```
    or git clone the repository:
     ```sh
