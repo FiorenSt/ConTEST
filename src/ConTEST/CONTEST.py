@@ -51,18 +51,35 @@ def contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=10000, seed=1, signif_lev=0.05
     # Observations size
     n = len(y_obs)
 
-    # Estimate the test statistic
-    t = numpy.sqrt(numpy.sum(((y_mod - y_obs) / y_obs_err) ** 2) / n)
+    # Check if input is a vector or a matrix
+    if y_obs_err.ndim == 1:
+        y_obs_err = y_obs_err
+        # Estimate the test statistic for 1D case
+        t = numpy.sqrt(numpy.sum(((y_mod - y_obs) / y_obs_err) ** 2) / n)
 
-    # Simulate K dataset with the model as ground truth and the observed uncertainties as covariance matrix
-    sim = numpy.zeros((n, K))
-    numpy.random.seed(seed)
-    for i in range(n):
-        sim[i, :] = y_mod[i] + stats.multivariate_normal.rvs(mean=0, cov= (y_obs_err[i])**2,size=K)
+        # Simulate K dataset with the model as ground truth and the observed uncertainties for 1D case
+        sim = numpy.zeros((n, K))
+        numpy.random.seed(seed)
+        for i in range(n):
+            sim[i, :] = y_mod[i] + stats.multivariate_normal.rvs(mean=0, cov=(y_obs_err[i]) ** 2, size=K)
 
-    # Estimate the test statistics for the simulated samples
-    t_sim = numpy.sqrt(
-        numpy.sum(((numpy.array([y_mod, ] * K).T - sim) / numpy.array([y_obs_err, ] * K).T) ** 2, axis=0) / n)
+        # Estimate the test statistics for the simulated samples for 1D case
+        t_sim = numpy.sqrt(
+            numpy.sum(((numpy.array([y_mod, ] * K).T - sim) / numpy.array([y_obs_err, ] * K).T) ** 2, axis=0) / n)
+
+    else:
+        y_obs_cov = y_obs_err
+        # Estimate the test statistic for 2D case
+        t = numpy.sqrt(numpy.dot((y_mod - y_obs).T, numpy.linalg.inv(y_obs_cov)).dot(y_mod - y_obs) / n)
+
+        # Simulate K dataset with the model as ground truth and the observed uncertainties as covariance matrix for 2D case
+        sim = numpy.zeros((n, K))
+        numpy.random.seed(seed)
+        for i in range(K):
+            sim[:, i] = stats.multivariate_normal.rvs(mean=y_mod, cov=y_obs_cov)
+
+        # Estimate the test statistics for the simulated samples for 2D case
+        t_sim = numpy.sqrt(numpy.sum((y_mod[:, None] - sim).T * numpy.linalg.inv(y_obs_cov).dot(y_mod[:, None] - sim).T, axis=1) / n)
 
     # Calculate the P_value
     p_value = 2 * min(numpy.mean(t_sim <= t), numpy.mean(t_sim >= t))
@@ -91,11 +108,12 @@ def contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=10000, seed=1, signif_lev=0.05
         plt.subplot(1, 2, 2)
         s = sns.kdeplot(t_sim, fill=True, color="gray")
         plt.vlines(t, ymin=0, ymax=s.dataLim.bounds[3], colors="#D16103",linestyle='--', label='Test stat.')
-        plt.vlines(numpy.quantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
+        plt.vlines(numpy.nanquantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
                    linestyle='--', label='97.5%')
-        plt.vlines(numpy.quantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3],
+        plt.vlines(numpy.nanquantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3],
                    colors="#293352",linestyle='--', label='2.5%')
         plt.legend()
+
     return pd.DataFrame({'Test': t, 'Bootstrap': t_sim, 'P_value': p_value})
 
 
@@ -104,7 +122,7 @@ def contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=10000, seed=1, signif_lev=0.05
 # SMOOTHED CONTEST FOR REGRESSION #
 ###################################
 
-def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_lev=0.05, bwtype='fixed', plot=False):
+def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_lev=0.05, bwtype='fixed', plot=False, verbose=0):
 
     rpy2.robjects.numpy2ri.activate()
 
@@ -157,7 +175,7 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
     for k in range(K):
         y_sim = rpy2.robjects.FloatVector(sim[:,k])
         y_obs_smoothed_sim[:,k,:] = r_f(y_sim, x_obs_r, bwtype)
-
+        if verbose == 1: print('Iteration:' + k)
 
     # Estimate the test statistics for the simulated samples
     t_sim = numpy.sqrt(
@@ -193,9 +211,9 @@ def smoothed_contest_reg(y_obs, x_obs, y_mod, y_obs_err, K=1000, seed=1, signif_
         plt.subplot(1, 2, 2)
         s = sns.kdeplot(t_sim, fill=True, color="gray")
         plt.vlines(t, ymin=0, ymax=s.dataLim.bounds[3], color="#D16103",linestyle='--', label='Test stat.')
-        plt.vlines(numpy.quantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
+        plt.vlines(numpy.nanquantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
                    linestyle='--', label='97.5%')
-        plt.vlines(numpy.quantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
+        plt.vlines(numpy.nanquantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
                    linestyle='--', label='2.5%')
         plt.legend()
 
@@ -260,9 +278,9 @@ def contest_outliers(mod, obs, K=1000, signif_lev=0.05, plot=False):
             plt.subplot(1, 2, 2)
             s = sns.kdeplot(t_sim, fill=True, color="gray")
             plt.vlines(t, ymin=0, ymax=s.dataLim.bounds[3], colors="#D16103", linestyle='--', label='Test stat.')
-            plt.vlines(numpy.quantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3],
+            plt.vlines(numpy.nanquantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3],
                        colors="#293352", linestyle='--', label='97.5%')
-            plt.vlines(numpy.quantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
+            plt.vlines(numpy.nanquantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
                        linestyle='--', label='2.5%')
             plt.legend()
 
@@ -278,9 +296,9 @@ def contest_outliers(mod, obs, K=1000, signif_lev=0.05, plot=False):
             plt.subplot(1, 2, 2)
             s = sns.kdeplot(t_sim, fill=True, color="gray")
             plt.vlines(t, ymin=0, ymax=s.dataLim.bounds[3], color="#D16103", linestyle='--', label='Test stat.')
-            plt.vlines(numpy.quantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3],
+            plt.vlines(numpy.nanquantile(t_sim, q=1 - (signif_lev / 2)), ymin=0, ymax=s.dataLim.bounds[3],
                        color="#293352", linestyle='--', label='97.5%')
-            plt.vlines(numpy.quantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
+            plt.vlines(numpy.nanquantile(t_sim, q=signif_lev / 2), ymin=0, ymax=s.dataLim.bounds[3], color="#293352",
                        linestyle='--', label='2.5%')
             plt.legend()
 
@@ -352,7 +370,7 @@ def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
             plt.subplot(1, 2, 2)
             s = sns.kdeplot(t_sim, fill=True, color="gray")
             plt.vlines(t, ymin=0, ymax=s.dataLim.bounds[3], colors="#D16103", linestyle='--', label='Test stat.')
-            plt.vlines(numpy.quantile(t_sim, q=1 - signif_lev), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
+            plt.vlines(numpy.nanquantile(t_sim, q=1 - signif_lev), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
                        linestyle='--', label='95%')
             plt.legend()
 
@@ -369,7 +387,7 @@ def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
             plt.subplot(1, 2, 2)
             s = sns.kdeplot(t_sim, fill=True, color="gray")
             plt.vlines(t, ymin=0, ymax=s.dataLim.bounds[3], colors="#D16103",linestyle='--', label='Test stat.')
-            plt.vlines(numpy.quantile(t_sim, q=1 - signif_lev), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
+            plt.vlines(numpy.nanquantile(t_sim, q=1 - signif_lev), ymin=0, ymax=s.dataLim.bounds[3], colors="#293352",
                        linestyle='--', label='95%')
             plt.legend()
 
