@@ -41,10 +41,10 @@ _Follow the instructions below to install and start using ConTEST in Python._
 
  <br/>
 
-2. Install the statistical software [R](https://www.r-project.org/). R is needed to run some internal functions of ConTEST.
+2. (Optional) Install the statistical software [R](https://www.r-project.org/). R is required only if you plan to use the `smoothed_contest_reg()` function. This function employs local linear regression using the `np` package in R.
 <br/>
 
-3. To ensure that Python can access R's libraries, run the three lines below in Python (of course, modify to match your folders):
+3. (Optional) To ensure that Python can access R's libraries, run the three lines below in Python (of course, modify to match your folders). This step is only necessary if you intend to use the `smoothed_contest_reg()` function:
 
    ```sh
     import os
@@ -55,7 +55,7 @@ _Follow the instructions below to install and start using ConTEST in Python._
 <br/>
 
 
-4. Install Python dependencies (rpy2 needs R already installed):
+4. Install Python dependencies. Note that the `rpy2` package, which facilitates interaction between R and Python, is required only if you plan to use the `smoothed_contest_reg()` function:
    ```sh
    pip intall matplotlib
    pip intall numpy
@@ -67,7 +67,7 @@ _Follow the instructions below to install and start using ConTEST in Python._
  <br/>
 
 
-5. If this is the first time you use ConTEST, you need to install the R package used in Smoothed ConTEST. In Python, simply run:
+5. (Optional) If this is the first time you use ConTEST and you plan to use the `smoothed_contest_reg()` function, you need to install the R package used in Smoothed ConTEST. In Python, simply run:
 
    ```sh
     def install_R_functions(packnames=('np')):
@@ -121,7 +121,7 @@ For more details check out the paper: _Stoppa et al., in preparation_
 There are 4 fundamental functions in ConTEST:
 
 - ConTEST for regression: Test the consistency of a model with respect to an observed dataset and their uncertainties
-- Smoothed ConTEST for regression: Test the consistency of a model with respect to an observed dataset and 
+- Smoothed ConTEST for regression (requires R and the `rpy2` Python package): Test the consistency of a model with respect to an observed dataset and 
   their uncertainties
 - ConTEST for outliers: Test if an observed sample is likely to come from a density model (or a simulated dataset)
 - ConTEST for densities: Test the consistency of a density model (or a simulated dataset) with respect to an observed 
@@ -177,7 +177,7 @@ Create synthetic model, observations, and uncertainties to test the functions:
 <img src="https://github.com/FiorenSt/ConTEST/blob/main/img/ConTESTforRegression.png " width=80% height=80%>
 
 
-### Smoothed ConTEST for regression
+### Smoothed ConTEST for regression (requires R and the `rpy2` Python package)
  
    ```sh
    Test2 = smoothed_contest_reg(y_obs = obs, x_obs = x, y_mod = model, y_obs_err = err_obs, K=1000,plot=True)   

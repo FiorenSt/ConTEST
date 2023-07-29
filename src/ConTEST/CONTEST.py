@@ -33,10 +33,16 @@ from scipy import stats
 # os.environ['R_USER'] = '~/Miniconda3/envs/ConsistencyTest/lib/site-packages/'  #-> Your python environment
 # os.environ['R_LIBS_USER'] = "~/Program Files/R/R-4.0.2/library/"  #-> Your R packages library
 
-import rpy2.robjects.packages as rpackages
-import rpy2.robjects.numpy2ri
-import rpy2.robjects
 
+try:
+    import rpy2.robjects.packages as rpackages
+    import rpy2.robjects.numpy2ri
+    import rpy2.robjects
+    rpy2_imported = True
+except ImportError:
+    rpy2_imported = False
+    print("Warning: rpy2 module not found. The function smoothed_contest_reg() will not work without it. If you need this function, please install rpy2.")
+    
 
 ###########################################  REGRESSION  ##############################################
 ###########################################    MODELS    ##############################################
@@ -272,7 +278,7 @@ def contest_outliers(mod, obs, K=1000, signif_lev=0.05, plot=False):
             plt.figure(figsize=(12, 6))
             plt.subplot(1, 2, 1)
             sns.kdeplot(x=mod, levels=[0.25,0.50,0.75], color="#4E84C4", linestyle='--', label='Model')
-            plt.plot(obs, -0.00005 * numpy.ones(100), "|", color='black')
+            plt.plot(obs, -0.00005 * numpy.ones(obs.shape[0]), "|", color='black')
             plt.legend()
 
             plt.subplot(1, 2, 2)
@@ -363,7 +369,7 @@ def contest_dens(mod, obs, K=1000, signif_lev=0.05, plot=False):
             plt.subplot(1, 2, 1)
             sns.kdeplot(x=mod, levels=[0.25,0.50,0.75], color="#4E84C4", linestyle='--', label='Model')
             sns.kdeplot(x=obs, levels=[0.25,0.50,0.75], color="#D16103", label='Obs.')
-            plt.plot(obs, -0.00005 * numpy.ones(100), "|", color='black')
+            plt.plot(obs, -0.00005 * numpy.ones(obs.shape[0]), "|", color='black')
             plt.legend()
 
 
